@@ -70,8 +70,40 @@ namespace CRUD
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Yakin ingin menghapus data ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                return;
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "DELETE FROM tb_xirpl25 WHERE id_nomorsiswa = @id_nomorsiswa";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id_nomorsiswa", textBox1.Text);
+
+                    try
+                    {
+                        int rows = command.ExecuteNonQuery();
+
+                        if (rows > 0)
+                        {
+                            MessageBox.Show("Data berhasil dihapus.");
+                            database();  
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data tidak ditemukan.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Terjadi kesalahan: " + ex.Message);
+                    }
+                }
+            }
         }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
