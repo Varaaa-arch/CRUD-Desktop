@@ -64,21 +64,3 @@ Kolom yang digunakan:
 
 ---
 
-## 🧩 Fungsi CRUD
-
-### 🔹 1. Read (Load Data)
-Data otomatis ditampilkan saat form dibuka menggunakan:
-
-```csharp
-private void database()
-{
-    using (SqlConnection connection = new SqlConnection(connectionString))
-    {
-        connection.Open();
-        string query = "SELECT * FROM tb_xirpl25";
-        SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-        DataTable dataTable = new DataTable();
-        adapter.Fill(dataTable);
-        dataGridView1.DataSource = dataTable;
-    }
-}
