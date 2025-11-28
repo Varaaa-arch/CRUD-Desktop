@@ -158,7 +158,13 @@ namespace CRUD
 
         private void button4_Click(object sender, EventArgs e)
         {
+            DialogResult result = MessageBox.Show("Yakin mau keluar?",
+                                                  "Konfirmasi",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Question);
 
+            if (result == DialogResult.Yes)
+                Application.Exit();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
