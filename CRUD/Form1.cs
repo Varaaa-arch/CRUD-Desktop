@@ -107,7 +107,53 @@ namespace CRUD
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            {
+                MessageBox.Show("Pilih data dulu dari tabel sebelum mengedit!");
+                return;
+            }
 
+            if (MessageBox.Show("Yakin ingin mengubah data ini?",
+                                "Konfirmasi Edit",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "UPDATE tb_xirpl25 SET nama = @nama, nis = @nis, kelas = @kelas, nowhatsapp = @nowhatsapp " +
+                               "WHERE id_nomorsiswa = @id_nomorsiswa";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@id_nomorsiswa", textBox1.Text);
+                    command.Parameters.AddWithValue("@nama", textBox2.Text);
+                    command.Parameters.AddWithValue("@nis", textBox3.Text);
+                    command.Parameters.AddWithValue("@kelas", textBox4.Text);
+                    command.Parameters.AddWithValue("@nowhatsapp", textBox5.Text);
+
+                    try
+                    {
+                        int rows = command.ExecuteNonQuery();
+
+                        if (rows > 0)
+                        {
+                            MessageBox.Show("Data berhasil diupdate.");
+                            database(); 
+                        }
+                        else
+                        {
+                            MessageBox.Show("Data tidak ditemukan.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Terjadi kesalahan: " + ex.Message);
+                    }
+                }
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
